@@ -1,216 +1,247 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deep Questions</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      background: linear-gradient(135deg, #0a0f14 0%, #11161d 100%);
-    }
-    .futuristic-card {
-      background: rgba(0, 93, 99, 0.15);
-      border: 1px solid #005D63;
-      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-      position: relative;
-      overflow: hidden;
-    }
-    .futuristic-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(135deg, rgba(111,161,136,0.08) 0%, transparent 50%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .futuristic-card:hover {
-      border-color: #6FA188;
-      box-shadow: 0 0 0 1px #6FA188,
-                  0 20px 25px -5px rgba(0, 0, 0, 0.1),
-                  0 8px 10px -6px rgba(0, 0, 0, 0.1);
-      transform: translateY(-6px);
-    }
-    .futuristic-card:hover::before {
-      opacity: 1;
-    }
-    .accent-text {
-      color: #C0B498;
-    }
-    .question-card {
-      background: rgba(17, 22, 29, 0.9);
-      border: 1px solid #005D63;
-      transition: all 0.3s ease;
-    }
-    .question-card:hover {
-      border-color: #6FA188;
-      background: rgba(0, 93, 99, 0.12);
-    }
-    .section-number {
-      background: #005D63;
-      color: #C0B498;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>More Than Words</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    background: #f4f6f8;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, .card-title {
+    font-family: 'Playfair Display', serif;
+  }
+
+  /* header block (book style) */
+  .header-box {
+    background:#2F8FB5;
+    border-radius:28px;
+    padding:32px;
+    color:white;
+    box-shadow:0 15px 40px rgba(0,0,0,0.15);
+  }
+
+  /* cards */
+  .card-deck {
+    border-radius:24px;
+    padding:28px;
+    color:white;
+    position:relative;
+    transition:all 0.3s ease;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  }
+
+  .card-deck:hover {
+    transform: translateY(-8px) rotate(-1deg);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  }
+
+  .card-title {
+    font-size:1.5rem;
+    font-weight:600;
+  }
+
+  .card-sub {
+    opacity:0.9;
+    font-size:0.95rem;
+  }
+
+  .card-blue { background:#2F8FB5; }
+  .card-coral { background:#E07A7A; }
+  .card-yellow { background:#D6D96C; color:#222; }
+  .card-orange { background:#E6902E; }
+  .card-green { background:#A8D17A; color:#222; }
+
+  /* question cards */
+  .question-card {
+    background:white;
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 6px 15px rgba(0,0,0,0.05);
+    transition:all 0.2s ease;
+  }
+
+  .question-card:hover {
+    transform:translateY(-3px);
+  }
+</style>
 </head>
-<body class="min-h-screen text-white py-12 px-6">
-  <div class="max-w-6xl mx-auto">
-    <!-- Header -->
-    <div class="text-center mb-14">
-      <div class="inline-block px-4 py-1 rounded-full border border-[#005D63] text-[#6FA188] text-sm mb-4 tracking-widest">AI-POWERED REFLECTION</div>
-      <h1 class="text-6xl font-bold tracking-tight mb-3">Deep Questions</h1>
-      <p class="text-xl text-[#C0B498]">Choose a dimension to explore</p>
-    </div>
 
-    <!-- Section Cards -->
-    <div id="sections-view" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Populated by JS -->
-    </div>
+<body class="py-12 px-6">
 
-    <!-- Questions View -->
-    <div id="questions-view" class="hidden max-w-3xl mx-auto">
-      <div class="mb-8">
-        <button onclick="showSections()" 
-                class="flex items-center gap-2 text-[#6FA188] hover:text-[#C0B498] transition-colors mb-6 text-sm tracking-wider">
-          ← BACK TO DIMENSIONS
-        </button>
-        <h2 id="section-title" class="text-5xl font-bold tracking-tight"></h2>
-        <p id="section-count" class="text-[#C0B498] mt-2"></p>
-      </div>
+<div class="max-w-5xl mx-auto">
 
-      <div id="questions-list" class="space-y-4">
-        <!-- Populated by JS -->
-      </div>
+  <!-- HEADER -->
+  <div class="flex justify-center mb-14">
+    <div class="header-box text-center">
+      <div class="text-lg tracking-[3px] italic">MORE THAN WORDS</div>
+      <h1 class="text-4xl font-bold mt-3 leading-tight">
+        深刻地<br>認識一個人
+      </h1>
     </div>
   </div>
 
-  <script>
-    const sections = [
-      {
-        title: "Childhood & Past",
-        questions: [
-          "What did you most often imagine yourself becoming when you were a child?",
-          "Is there something from your upbringing that you still remember vividly how it felt?",
-          "What was your favorite toy or object as a child, and why?",
-          "How has your feeling about “family” changed from the past to now?"
-        ]
-      },
-      {
-        title: "Values & Beliefs",
-        questions: [
-          "What is your core personal definition of “success”?",
-          "What is one thing you feel you could never compromise on?",
-          "What quality in relationships do you value the most, and why?",
-          "If you had to describe your life philosophy in one sentence, what would it be?"
-        ]
-      },
-      {
-        title: "Emotions & Relationships",
-        questions: [
-          "What does it feel like to be truly understood by someone?",
-          "In close relationships, what are you most afraid of losing?",
-          "What was the last thing that made you cry?",
-          "Which feels easier for you: loving someone or being loved?"
-        ]
-      },
-      {
-        title: "Fears & Vulnerability",
-        questions: [
-          "What is one thing you’re currently most afraid of?",
-          "Is there something you’ve always wanted to try but haven’t because of fear?",
-          "Which part of yourself do you feel others misunderstand the most?",
-          "When you feel lonely, how do you usually handle it?"
-        ]
-      },
-      {
-        title: "Dreams & Future",
-        questions: [
-          "If money and reality weren’t factors, what would you most want to do?",
-          "In five years, in what area do you hope to be noticeably different from now?",
-          "What does your ideal life look like?",
-          "Is there a dream you’ve given up but still think about sometimes?"
-        ]
-      },
-      {
-        title: "Self-Awareness",
-        questions: [
-          "What do you think are your biggest strength and weakness?",
-          "What’s one recent event that made you understand yourself better?",
-          "What’s the most common inner thought you have about yourself?",
-          "If you could go back and tell your younger self one thing, what would it be?"
-        ]
-      },
-      {
-        title: "Light but Meaningful",
-        questions: [
-          "What’s your favorite thing to do alone?",
-          "Is there a book or movie that has deeply influenced you?",
-          "What does the feeling of “home” mean to you?",
-          "Who is one person you want to thank but haven’t said it to yet?",
-          "If you could have dinner with anyone (living or deceased), who would you choose?",
-          "What question would you most like to be asked right now?"
-        ]
-      }
-    ];
+  <!-- SECTION VIEW -->
+  <div id="sections-view" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 
-    function createSectionCards() {
-      const container = document.getElementById('sections-view');
-      container.innerHTML = '';
+  <!-- QUESTION VIEW -->
+  <div id="questions-view" class="hidden max-w-3xl mx-auto">
+    
+    <button onclick="showSections()" 
+      class="mb-6 text-[#2F8FB5] font-medium hover:underline">
+      ← Back
+    </button>
 
-      sections.forEach((section, index) => {
-        const card = document.createElement('div');
-        card.className = `futuristic-card rounded-3xl p-8 cursor-pointer h-full flex flex-col`;
-        
-        card.innerHTML = `
-          <div class="flex-1">
-            <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-6" style="background: #005D63;">
-              <span class="text-2xl">✧</span>
-            </div>
-            <h3 class="text-3xl font-semibold tracking-tight mb-3">${section.title}</h3>
-            <p class="text-[#C0B498]">${section.questions.length} questions</p>
-          </div>
-          <div class="mt-8">
-            <span class="inline-block px-5 py-2 text-sm border border-[#6FA188] rounded-full text-[#6FA188]">EXPLORE →</span>
-          </div>
-        `;
-        
-        card.onclick = () => showQuestions(index);
-        container.appendChild(card);
-      });
-    }
+    <h2 id="section-title" class="text-3xl font-bold mb-2"></h2>
+    <p id="section-count" class="text-gray-500 mb-6"></p>
 
-    function showQuestions(index) {
-      const section = sections[index];
-      
-      document.getElementById('sections-view').classList.add('hidden');
-      document.getElementById('questions-view').classList.remove('hidden');
+    <div id="questions-list" class="space-y-4"></div>
+  </div>
 
-      document.getElementById('section-title').textContent = section.title;
-      document.getElementById('section-count').textContent = `${section.questions.length} QUESTIONS`;
+</div>
 
-      const list = document.getElementById('questions-list');
-      list.innerHTML = '';
+<script>
+const sections = [
+  {
+    title: "Childhood & Past",
+    questions: [
+      "What did you most often imagine yourself becoming when you were a child?",
+      "Is there something from your upbringing that you still remember vividly how it felt?",
+      "What was your favorite toy or object as a child, and why?",
+      "How has your feeling about “family” changed from the past to now?"
+    ]
+  },
+  {
+    title: "Values & Beliefs",
+    questions: [
+      "What is your core personal definition of success?",
+      "What is one thing you feel you could never compromise on?",
+      "What quality in relationships do you value the most?",
+      "If you had to describe your life philosophy in one sentence?"
+    ]
+  },
+  {
+    title: "Emotions & Relationships",
+    questions: [
+      "What does it feel like to be truly understood?",
+      "In relationships, what are you most afraid of losing?",
+      "What was the last thing that made you cry?",
+      "Which is easier: loving or being loved?"
+    ]
+  },
+  {
+    title: "Fears & Vulnerability",
+    questions: [
+      "What is one thing you're most afraid of?",
+      "What have you avoided because of fear?",
+      "What part of you is most misunderstood?",
+      "How do you handle loneliness?"
+    ]
+  },
+  {
+    title: "Dreams & Future",
+    questions: [
+      "If nothing stopped you, what would you do?",
+      "Where do you hope to change in 5 years?",
+      "What does your ideal life look like?",
+      "Is there a dream you still think about?"
+    ]
+  },
+  {
+    title: "Self-Awareness",
+    questions: [
+      "Your biggest strength and weakness?",
+      "What made you understand yourself recently?",
+      "What thought do you repeat about yourself?",
+      "Advice to your younger self?"
+    ]
+  },
+  {
+    title: "Light but Meaningful",
+    questions: [
+      "Favorite thing to do alone?",
+      "A book or movie that changed you?",
+      "What does home mean?",
+      "Someone you want to thank?",
+      "Dinner with anyone?",
+      "What question do you want to be asked?"
+    ]
+  }
+];
 
-      section.questions.forEach((question, i) => {
-        const qDiv = document.createElement('div');
-        qDiv.className = `question-card rounded-3xl p-7 flex gap-5`;
-        qDiv.innerHTML = `
-          <div class="flex-shrink-0 w-9 h-9 rounded-2xl flex items-center justify-center text-sm font-medium" style="background: #005D63; color: #C0B498;">
-            ${i + 1}
-          </div>
-          <p class="text-lg leading-relaxed pt-1">${question}</p>
-        `;
-        list.appendChild(qDiv);
-      });
-    }
+const colors = [
+  "card-blue","card-coral","card-yellow",
+  "card-orange","card-green","card-blue","card-coral"
+];
 
-    function showSections() {
-      document.getElementById('sections-view').classList.remove('hidden');
-      document.getElementById('questions-view').classList.add('hidden');
-    }
+function createSectionCards() {
+  const container = document.getElementById('sections-view');
+  container.innerHTML = '';
 
-    window.onload = function() {
-      createSectionCards();
-    };
-  </script>
+  sections.forEach((section, index) => {
+    const card = document.createElement('div');
+
+    card.className = `card-deck ${colors[index % colors.length]} cursor-pointer flex flex-col justify-between h-56`;
+
+    card.innerHTML = `
+      <div>
+        <div class="absolute top-4 right-4 text-lg opacity-80">★</div>
+        <h3 class="card-title">${section.title}</h3>
+      </div>
+
+      <div>
+        <p class="card-sub">${section.questions.length} questions</p>
+        <p class="mt-3 italic text-sm opacity-90">Tap to explore →</p>
+      </div>
+    `;
+
+    card.onclick = () => showQuestions(index);
+    container.appendChild(card);
+  });
+}
+
+function showQuestions(index) {
+  const section = sections[index];
+
+  document.getElementById('sections-view').classList.add('hidden');
+  document.getElementById('questions-view').classList.remove('hidden');
+
+  document.getElementById('section-title').textContent = section.title;
+  document.getElementById('section-count').textContent = section.questions.length + " questions";
+
+  const list = document.getElementById('questions-list');
+  list.innerHTML = '';
+
+  section.questions.forEach((q, i) => {
+    const item = document.createElement('div');
+    item.className = "question-card flex gap-4";
+
+    item.innerHTML = `
+      <div class="w-8 h-8 bg-[#2F8FB5] text-white flex items-center justify-center rounded-xl text-sm">
+        ${i+1}
+      </div>
+      <p class="text-gray-800">${q}</p>
+    `;
+
+    list.appendChild(item);
+  });
+}
+
+function showSections() {
+  document.getElementById('sections-view').classList.remove('hidden');
+  document.getElementById('questions-view').classList.add('hidden');
+}
+
+window.onload = createSectionCards;
+</script>
+
 </body>
 </html>
