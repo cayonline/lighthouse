@@ -1,247 +1,300 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>More Than Words</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>More Than Words</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body { background: #f4f6f8; font-family: 'Noto Sans TC', 'Inter', sans-serif; }
+    h1, .card-title, .en-serif { font-family: 'Playfair Display', serif; }
 
-<script src="https://cdn.tailwindcss.com"></script>
+    .header-box {
+      background: #2F8FB5; border-radius: 28px; padding: 32px; color: white;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+    .card-deck {
+      border-radius: 24px; padding: 28px; color: white; position: relative;
+      transition: all 0.3s ease; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      min-height: 240px;
+    }
+    .card-deck:hover { transform: translateY(-8px) rotate(-1deg); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); }
 
-<style>
-  body {
-    background: #f4f6f8;
-    font-family: 'Inter', sans-serif;
-  }
+    .card-blue { background: #2F8FB5; }
+    .card-coral { background: #E07A7A; }
+    .card-yellow { background: #D6D96C; color: #222; }
+    .card-orange { background: #E6902E; }
+    .card-green { background: #A8D17A; color: #222; }
 
-  h1, .card-title {
-    font-family: 'Playfair Display', serif;
-  }
+    .question-card {
+      background: white; border-radius: 18px; padding: 20px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+    }
 
-  /* header block (book style) */
-  .header-box {
-    background:#2F8FB5;
-    border-radius:28px;
-    padding:32px;
-    color:white;
-    box-shadow:0 15px 40px rgba(0,0,0,0.15);
-  }
+    .action-btn {
+      border: none; border-radius: 14px; padding: 12px 18px;
+      font-size: 0.95rem; font-weight: 600; cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-primary { background: #2F8FB5; color: white; }
+    .btn-secondary { background: #222; color: white; }
 
-  /* cards */
-  .card-deck {
-    border-radius:24px;
-    padding:28px;
-    color:white;
-    position:relative;
-    transition:all 0.3s ease;
-    box-shadow:0 10px 25px rgba(0,0,0,0.08);
-  }
+    /* === Card Draw Animation === */
+    .draw-card {
+      animation: drawCard 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+      transform-origin: center bottom;
+    }
+    @keyframes drawCard {
+      0% {
+        opacity: 0;
+        transform: translateY(60px) rotate(-12deg) scale(0.8);
+      }
+      60% {
+        opacity: 1;
+        transform: translateY(-15px) rotate(6deg) scale(1.05);
+      }
+      100% {
+        transform: translateY(0) rotate(0deg) scale(1);
+      }
+    }
 
-  .card-deck:hover {
-    transform: translateY(-8px) rotate(-1deg);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-  }
-
-  .card-title {
-    font-size:1.5rem;
-    font-weight:600;
-  }
-
-  .card-sub {
-    opacity:0.9;
-    font-size:0.95rem;
-  }
-
-  .card-blue { background:#2F8FB5; }
-  .card-coral { background:#E07A7A; }
-  .card-yellow { background:#D6D96C; color:#222; }
-  .card-orange { background:#E6902E; }
-  .card-green { background:#A8D17A; color:#222; }
-
-  /* question cards */
-  .question-card {
-    background:white;
-    border-radius:18px;
-    padding:20px;
-    box-shadow:0 6px 15px rgba(0,0,0,0.05);
-    transition:all 0.2s ease;
-  }
-
-  .question-card:hover {
-    transform:translateY(-3px);
-  }
-</style>
+    /* === Blind Box Animation === */
+    .blind-box {
+      animation: openBlindBox 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+      transform-origin: center;
+    }
+    @keyframes openBlindBox {
+      0% {
+        opacity: 0;
+        transform: scale(0.6) rotate(-8deg);
+      }
+      50% {
+        transform: scale(1.08) rotate(4deg);
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+      }
+    }
+  </style>
 </head>
 
-<body class="py-12 px-6">
+<body class="min-h-screen py-12 px-6">
+  <div class="max-w-5xl mx-auto">
 
-<div class="max-w-5xl mx-auto">
-
-  <!-- HEADER -->
-  <div class="flex justify-center mb-14">
-    <div class="header-box text-center">
-      <div class="text-lg tracking-[3px] italic">MORE THAN WORDS</div>
-      <h1 class="text-4xl font-bold mt-3 leading-tight">
-        深刻地<br>認識一個人
-      </h1>
+    <!-- HEADER -->
+    <div class="flex justify-center mb-14">
+      <div class="header-box text-center">
+        <div class="text-lg tracking-[3px] italic en-serif">MORE THAN WORDS</div>
+        <h1 class="text-4xl font-bold mt-3 leading-tight">
+          深刻地<br>認識一個人
+        </h1>
+      </div>
     </div>
+
+    <!-- SECTION VIEW -->
+    <div id="sections-view" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+    <!-- QUESTIONS VIEW -->
+    <div id="questions-view" class="hidden max-w-3xl mx-auto">
+      <button onclick="showSections()" class="mb-6 text-[#2F8FB5] font-medium hover:underline">← Back</button>
+
+      <h2 id="section-title" class="text-3xl font-bold mb-1"></h2>
+      <p id="section-title-zh" class="text-lg text-gray-600 mb-2"></p>
+      <p id="section-count" class="text-gray-500 mb-6"></p>
+
+      <!-- QUESTION LIST -->
+      <div id="questions-list" class="space-y-4 mb-8"></div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="flex flex-wrap gap-3">
+        <button class="action-btn btn-primary" onclick="drawRandom()">Draw me something...</button>
+        <button class="action-btn btn-secondary" onclick="showExtra()">More than a button – Extra Question</button>
+      </div>
+
+      <!-- RESULT AREAS -->
+      <div id="random-box" class="hidden mt-6"></div>
+      <div id="extra-box" class="hidden mt-6"></div>
+    </div>
+
   </div>
 
-  <!-- SECTION VIEW -->
-  <div id="sections-view" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  <script>
+    const sections = [
+      { title: "Childhood & Past", titleZh: "童年與過去", color: "#2F8FB5",
+        extra: ["If you could rewrite one chapter of your childhood, which chapter would it be—and would you change the ending?", "如果你可以重寫童年中的一個篇章，那會是哪一章？你會改變它的結局嗎？"],
+        questions: [
+          ["What did you most often imagine yourself becoming when you were a child?", "小時候你最常想像自己會成為什麼樣的人？"],
+          ["Is there something from your upbringing that you still remember vividly how it felt?", "你的成長過程中，有沒有一件事至今仍讓你清楚記得當時的感受？"],
+          ["What was your favorite toy or object as a child, and why?", "你小時候最喜歡的玩具或物件是什麼？為什麼？"],
+          ["How has your feeling about family changed from the past to now?", "你對「家庭」的感受，從過去到現在有什麼改變？"]
+        ]
+      },
+      { title: "Values & Beliefs", titleZh: "價值觀與信念", color: "#E07A7A",
+        extra: ["What is one belief you used to defend strongly, but now quietly question?", "有沒有一個你曾經深信不疑、現在卻開始悄悄懷疑的信念？"],
+        questions: [
+          ["What is your core personal definition of success?", "你心中對「成功」最核心的定義是什麼？"],
+          ["What is one thing you feel you could never compromise on?", "有哪一件事是你覺得自己永遠不會妥協的？"],
+          ["What quality in relationships do you value the most?", "在關係中，你最重視的是哪一種特質？"],
+          ["If you had to describe your life philosophy in one sentence, what would it be?", "如果要用一句話形容你的人生哲學，那會是什麼？"]
+        ]
+      },
+      { title: "Emotions & Relationships", titleZh: "情感與關係", color: "#D6D96C",
+        extra: ["If your heart had a waiting room, who or what has been sitting there for too long?", "如果你的內心有一個等候室，是誰或什麼事情已經在裡面待了太久？"],
+        questions: [
+          ["What does it feel like to be truly understood by someone?", "被一個人真正理解，對你來說是什麼感覺？"],
+          ["In close relationships, what are you most afraid of losing?", "在親密關係裡，你最害怕失去的是什麼？"],
+          ["What was the last thing that made you cry?", "最近一次讓你落淚的是什麼事？"],
+          ["Which feels easier for you: loving someone or being loved?", "對你來說，愛一個人比較容易，還是被愛比較容易？"]
+        ]
+      },
+      { title: "Fears & Vulnerability", titleZh: "恐懼與脆弱", color: "#E6902E",
+        extra: ["What truth about yourself feels too fragile to say out loud too often?", "有什麼關於你自己的真相，是你覺得太脆弱，所以不常說出口的？"],
+        questions: [
+          ["What is one thing you're currently most afraid of?", "你目前最害怕的一件事是什麼？"],
+          ["Is there something you've always wanted to try but haven't because of fear?", "有沒有一件你一直想嘗試、卻因為害怕而遲遲沒做的事？"],
+          ["Which part of yourself do you feel others misunderstand the most?", "你覺得別人最常誤解你哪一部分？"],
+          ["When you feel lonely, how do you usually handle it?", "當你感到孤單時，通常會怎麼面對？"]
+        ]
+      },
+      { title: "Dreams & Future", titleZh: "夢想與未來", color: "#A8D17A",
+        extra: ["If your future self could send you one sentence tonight, what do you hope it says?", "如果未來的你今晚可以傳一句話給現在的你，你希望那句話是什麼？"],
+        questions: [
+          ["If money and reality weren't factors, what would you most want to do?", "如果不受金錢和現實限制，你最想做什麼？"],
+          ["In five years, in what area do you hope to be noticeably different from now?", "五年後，你希望自己在哪方面和現在有明顯不同？"],
+          ["What does your ideal life look like?", "你理想中的生活是什麼模樣？"],
+          ["Is there a dream you've given up but still think about sometimes?", "有沒有一個你已經放下、但偶爾還會想起的夢想？"]
+        ]
+      },
+      { title: "Self-Awareness", titleZh: "自我覺察", color: "#2F8FB5",
+        extra: ["What part of yourself do you think is still becoming, not finished yet?", "你覺得自己有哪些部分仍在形成中，還沒有真正完成？"],
+        questions: [
+          ["What do you think are your biggest strength and weakness?", "你認為自己最大的優點和弱點分別是什麼？"],
+          ["What's one recent event that made you understand yourself better?", "最近有什麼事情讓你更了解自己？"],
+          ["What's the most common inner thought you have about yourself?", "你最常對自己產生的內在想法是什麼？"],
+          ["If you could go back and tell your younger self one thing, what would it be?", "如果可以回去告訴年輕時的自己一句話，你會說什麼？"]
+        ]
+      },
+      { title: "Light but Meaningful", titleZh: "輕鬆但有意思", color: "#E07A7A",
+        extra: ["If someone made a tiny museum about you, what three objects should be in it?", "如果有人為你開一個小小博物館，你覺得裡面應該放哪三樣物品？"],
+        questions: [
+          ["What's your favorite thing to do alone?", "你最喜歡一個人做的事情是什麼？"],
+          ["Is there a book or movie that has deeply influenced you?", "有沒有一本書或一部電影對你影響很深？"],
+          ["What does the feeling of home mean to you?", "對你來說，「家的感覺」代表什麼？"],
+          ["Who is one person you want to thank but haven't said it to yet?", "有沒有一個你一直想感謝、卻還沒說出口的人？"],
+          ["If you could have dinner with anyone, who would you choose?", "如果你可以和任何人共進晚餐，你會選誰？"],
+          ["What question would you most like to be asked right now?", "此刻你最希望別人問你的問題是什麼？"]
+        ]
+      }
+    ];
 
-  <!-- QUESTION VIEW -->
-  <div id="questions-view" class="hidden max-w-3xl mx-auto">
-    
-    <button onclick="showSections()" 
-      class="mb-6 text-[#2F8FB5] font-medium hover:underline">
-      ← Back
-    </button>
+    let currentSection = null;
+    let currentColor = "#2F8FB5";
 
-    <h2 id="section-title" class="text-3xl font-bold mb-2"></h2>
-    <p id="section-count" class="text-gray-500 mb-6"></p>
+    function createSectionCards() {
+      const container = document.getElementById('sections-view');
+      container.innerHTML = '';
 
-    <div id="questions-list" class="space-y-4"></div>
-  </div>
+      sections.forEach((section, index) => {
+        const card = document.createElement('div');
+        card.className = `card-deck cursor-pointer flex flex-col justify-between ${getColorClass(section.color)}`;
+        card.innerHTML = `
+          <div>
+            <div class="absolute top-4 right-4 text-lg opacity-80">★</div>
+            <h3 class="card-title">${section.title}</h3>
+            <p class="mt-2 text-lg opacity-95">${section.titleZh}</p>
+          </div>
+          <div>
+            <p class="opacity-90">${section.questions.length} questions</p>
+            <p class="mt-3 italic text-sm opacity-90">Tap to explore →</p>
+          </div>
+        `;
+        card.onclick = () => showQuestions(index);
+        container.appendChild(card);
+      });
+    }
 
-</div>
+    function getColorClass(hex) {
+      if (hex === "#2F8FB5") return "card-blue";
+      if (hex === "#E07A7A") return "card-coral";
+      if (hex === "#D6D96C") return "card-yellow";
+      if (hex === "#E6902E") return "card-orange";
+      if (hex === "#A8D17A") return "card-green";
+      return "card-blue";
+    }
 
-<script>
-const sections = [
-  {
-    title: "Childhood & Past",
-    questions: [
-      "What did you most often imagine yourself becoming when you were a child?",
-      "Is there something from your upbringing that you still remember vividly how it felt?",
-      "What was your favorite toy or object as a child, and why?",
-      "How has your feeling about “family” changed from the past to now?"
-    ]
-  },
-  {
-    title: "Values & Beliefs",
-    questions: [
-      "What is your core personal definition of success?",
-      "What is one thing you feel you could never compromise on?",
-      "What quality in relationships do you value the most?",
-      "If you had to describe your life philosophy in one sentence?"
-    ]
-  },
-  {
-    title: "Emotions & Relationships",
-    questions: [
-      "What does it feel like to be truly understood?",
-      "In relationships, what are you most afraid of losing?",
-      "What was the last thing that made you cry?",
-      "Which is easier: loving or being loved?"
-    ]
-  },
-  {
-    title: "Fears & Vulnerability",
-    questions: [
-      "What is one thing you're most afraid of?",
-      "What have you avoided because of fear?",
-      "What part of you is most misunderstood?",
-      "How do you handle loneliness?"
-    ]
-  },
-  {
-    title: "Dreams & Future",
-    questions: [
-      "If nothing stopped you, what would you do?",
-      "Where do you hope to change in 5 years?",
-      "What does your ideal life look like?",
-      "Is there a dream you still think about?"
-    ]
-  },
-  {
-    title: "Self-Awareness",
-    questions: [
-      "Your biggest strength and weakness?",
-      "What made you understand yourself recently?",
-      "What thought do you repeat about yourself?",
-      "Advice to your younger self?"
-    ]
-  },
-  {
-    title: "Light but Meaningful",
-    questions: [
-      "Favorite thing to do alone?",
-      "A book or movie that changed you?",
-      "What does home mean?",
-      "Someone you want to thank?",
-      "Dinner with anyone?",
-      "What question do you want to be asked?"
-    ]
-  }
-];
+    function showQuestions(index) {
+      const section = sections[index];
+      currentSection = section;
+      currentColor = section.color;
 
-const colors = [
-  "card-blue","card-coral","card-yellow",
-  "card-orange","card-green","card-blue","card-coral"
-];
+      document.getElementById('sections-view').classList.add('hidden');
+      document.getElementById('questions-view').classList.remove('hidden');
 
-function createSectionCards() {
-  const container = document.getElementById('sections-view');
-  container.innerHTML = '';
+      document.getElementById('section-title').textContent = section.title;
+      document.getElementById('section-title-zh').textContent = section.titleZh;
+      document.getElementById('section-count').textContent = `${section.questions.length} questions`;
 
-  sections.forEach((section, index) => {
-    const card = document.createElement('div');
+      document.getElementById('random-box').classList.add('hidden');
+      document.getElementById('extra-box').classList.add('hidden');
 
-    card.className = `card-deck ${colors[index % colors.length]} cursor-pointer flex flex-col justify-between h-56`;
+      const list = document.getElementById('questions-list');
+      list.innerHTML = '';
 
-    card.innerHTML = `
-      <div>
-        <div class="absolute top-4 right-4 text-lg opacity-80">★</div>
-        <h3 class="card-title">${section.title}</h3>
-      </div>
+      section.questions.forEach((q, i) => {
+        const item = document.createElement('div');
+        item.className = 'question-card flex gap-4';
+        item.innerHTML = `
+          <div class="w-8 h-8 text-white flex items-center justify-center rounded-xl text-sm flex-shrink-0 mt-1" style="background: ${currentColor}">
+            ${i + 1}
+          </div>
+          <div>
+            <p class="font-medium text-gray-900">${q[0]}</p>
+            <p class="text-gray-500 mt-1">${q[1]}</p>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
 
-      <div>
-        <p class="card-sub">${section.questions.length} questions</p>
-        <p class="mt-3 italic text-sm opacity-90">Tap to explore →</p>
-      </div>
-    `;
+    // === DRAW CARD ANIMATION ===
+    function drawRandom() {
+      if (!currentSection) return;
+      const q = currentSection.questions[Math.floor(Math.random() * currentSection.questions.length)];
+      const box = document.getElementById('random-box');
 
-    card.onclick = () => showQuestions(index);
-    container.appendChild(card);
-  });
-}
+      box.className = 'question-card draw-card';
+      box.innerHTML = `
+        <div class="text-xs font-bold tracking-widest mb-2" style="color: ${currentColor}">🎴 RANDOM PICK</div>
+        <p class="font-medium text-gray-900">${q[0]}</p>
+        <p class="text-gray-500 mt-1">${q[1]}</p>
+      `;
+      box.classList.remove('hidden');
+    }
 
-function showQuestions(index) {
-  const section = sections[index];
+    // === BLIND BOX ANIMATION ===
+    function showExtra() {
+      if (!currentSection) return;
+      const box = document.getElementById('extra-box');
 
-  document.getElementById('sections-view').classList.add('hidden');
-  document.getElementById('questions-view').classList.remove('hidden');
+      box.className = 'question-card blind-box';
+      box.innerHTML = `
+        <div class="text-xs font-bold tracking-widest mb-2" style="color: ${currentColor}">✨ EXTRA QUESTION</div>
+        <p class="font-medium text-gray-900">${currentSection.extra[0]}</p>
+        <p class="text-gray-500 mt-1">${currentSection.extra[1]}</p>
+      `;
+      box.classList.remove('hidden');
+    }
 
-  document.getElementById('section-title').textContent = section.title;
-  document.getElementById('section-count').textContent = section.questions.length + " questions";
+    function showSections() {
+      document.getElementById('sections-view').classList.remove('hidden');
+      document.getElementById('questions-view').classList.add('hidden');
+    }
 
-  const list = document.getElementById('questions-list');
-  list.innerHTML = '';
-
-  section.questions.forEach((q, i) => {
-    const item = document.createElement('div');
-    item.className = "question-card flex gap-4";
-
-    item.innerHTML = `
-      <div class="w-8 h-8 bg-[#2F8FB5] text-white flex items-center justify-center rounded-xl text-sm">
-        ${i+1}
-      </div>
-      <p class="text-gray-800">${q}</p>
-    `;
-
-    list.appendChild(item);
-  });
-}
-
-function showSections() {
-  document.getElementById('sections-view').classList.remove('hidden');
-  document.getElementById('questions-view').classList.add('hidden');
-}
-
-window.onload = createSectionCards;
-</script>
-
+    window.onload = function () {
+      createSectionCards();
+    };
+  </script>
 </body>
 </html>
